@@ -1,13 +1,14 @@
 {
   "name": "remarque project",
   "version": "1.0.0",
-  "homepage":"https://github.com/Feulife/Remarque_project.git",
+  "homepage": "https://github.com/Feulife/Remarque_project.git",
   "description": "API code Remarque project",
   "main": "src/index.js",
   "scripts": {
     "start": "nodemon src/index.js",
     "dev": "nodemon src/index.js",
-    "lint": "eslint \"src/**/*.js\""
+    "lint": "eslint \"src/**/*.js\"",
+    "deploy": "gh-pages -d Remarque_project"
   },
   "repository": {
     "type": "git",
