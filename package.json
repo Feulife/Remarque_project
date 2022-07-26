@@ -7,8 +7,7 @@
   "scripts": {
     "start": "nodemon src/index.js",
     "dev": "nodemon src/index.js",
-    "lint": "eslint \"src/**/*.js\"",
-    "deploy": "gh-pages -d Remarque_project"
+    "lint": "eslint \"src/**/*.js\""    
   },
   "repository": {
     "type": "git",

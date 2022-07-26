@@ -8,14 +8,14 @@ let notes = [
 ];
 const typeDefs = gql`
   type Note {
-    id: ID!
-    content: String!
-    aythor: String!
+    id: ID!,
+    content: String!,
+    author: String!
   }
   
   type Query {
-    hello: String!
-    notes: [Note!]!
+    hello: String,
+    notes: [Note!]!,
     note: (id: ID!): Note!
   }
   
@@ -33,7 +33,13 @@ const resolvers = {
   },
   Mutation: {
     newNote: (parent, args) => {
-      let noteValue
+      let noteValue = {
+        id: String(notes.lenght + 1),
+        content: args.content,
+        author: 'Programmist'
+      };
+      notes.push(noteValue);
+      return noteValue;
     }
   }
 };
@@ -41,4 +47,3 @@ const app = express();
 const server = new ApolloServer({ typeDefs, resolvers});
 server.applyMiddleware({ app, path: '/Remarque_project'})
 app.listen(port, () => console.log(`GraphQL Server running at http://localhost:${port}$(server.graphqlPath)`));
-
