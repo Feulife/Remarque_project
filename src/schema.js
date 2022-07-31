@@ -8,6 +8,8 @@ scalar DataTime
     author: String!
     createdAt: DataTime!
     updateAt: DataTime!
+    favoriteCount: Int!
+    favoritedBy: [User!]
   }
 
   type User {
@@ -16,12 +18,14 @@ scalar DataTime
     email: String!
     avatar: String
     notes: {Note!}!
+    favorites: [Note!]
   }
   
   type Query {
     hello: String,
     notes: [Note!]!,
     note: (id: ID!): Note!
+    user(username: String!);
   }
   
   type Mutation {
@@ -30,4 +34,5 @@ scalar DataTime
     deleteNote(id: ID!): Boolean!
     singUp(username: String!, email: String!, password: String!): String!
     singIn(username: String, email: String, password: String!): String!
+    toggleFavorite(id: ID!): Note!
   }`;

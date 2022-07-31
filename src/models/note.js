@@ -6,13 +6,25 @@ const noteSchema = new mongoose.Schema(
       required: true
     },
     author: {
-      type: String,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
       required: true
-    }
+    },
+    favoriteCount: {
+      type: Number,
+      default: 0
+    },
+    favoritedBy: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+      }
+    ]
   },
   {
     timetamps: true
   }
 );
 const Note = mongoose.model('Note', noteSchema);
+
 module.exports = Note;

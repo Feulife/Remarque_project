@@ -15,14 +15,27 @@ let notes = [
 
 const resolvers = require('./resolvers');
 const app = express();
+const jwt = require('jsonwebtoken');
+const getUser = token => {
+  if (token) {
+    try {
+      return jwt.verify(token, process,env.JWT_SECRET);
+    } catch (err) {
+      new Error('Session invalid');
+    }
+  }
+};
 
 db.connect(DB_HOST);
 
 const server = new ApolloServer({
   typeDefs,
   resolvers,
-  context: () => {
-    return { models };
+  context: ({ req }) => {
+    const token = req.headers.authorization;
+    const user = getUser(token);
+    console.log(user);
+    return { models, user };
   }
 });
 server.applyMiddleware({ app, path: '/Remarque_project' });
