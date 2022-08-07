@@ -5,6 +5,10 @@ require('dotenv').config();
 const db = require('./db');
 const port = process.env.PORT || 4000;
 const DB_HOST = process.env.DB_HOST;
+const cors = require('cors');
+app.use(cors());
+const depthLimit = require('graphql-depth-limit');
+const { createComplexityLimitRule } = require('graphql-validation-complexity');
 
 const models = require('./models');
 let notes = [
@@ -31,9 +35,10 @@ db.connect(DB_HOST);
 const server = new ApolloServer({
   typeDefs,
   resolvers,
-  context: ({ req }) => {
+  validationRules: [depthLimit(5), createComplexityLimitRule(1000)],
+  context: async ({ req }) => {
     const token = req.headers.authorization;
-    const user = getUser(token);
+    const user = await getUser(token);
     console.log(user);
     return { models, user };
   }

@@ -20,12 +20,19 @@ scalar DataTime
     notes: {Note!}!
     favorites: [Note!]
   }
+
+  type NoteFeed {
+    notes: [Note]!
+    cursor: String!
+    hasNextPage: Boolean!
+  }
   
   type Query {
     hello: String,
     notes: [Note!]!,
     note: (id: ID!): Note!
     user(username: String!);
+    notFeed(cursor: String): NoteFeed
   }
   
   type Mutation {
