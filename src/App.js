@@ -1,12 +1,13 @@
 import React from 'react'
-import { ReactDOM } from 'react'
+import ReactDOM from 'react-dom'
+import Pages from './pages'
 
 const App = () => {
   return (
     <div>
-      <h1>Hello Remarque!!!</h1>
-      <p>Welcome to the Remarque application</p>
+      <Pages />
     </div>
   )
 }
 
+ReactDOM.render(<App />, document.getElementById('root'))
