@@ -5,7 +5,7 @@ const Favorites = () => {
     document.title = 'Favorites - Remarque'
   })
 
-  retrun (
+  return (
     <div>
       <h1>Remarque</h1>
       <p>These are my favorites</p>

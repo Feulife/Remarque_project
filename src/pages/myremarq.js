@@ -5,7 +5,7 @@ const MyRemarques = () => {
     document.title = 'My Remarques - Remarque';
   })
 
-  retrun (
+  return (
     <div>
       <h1>Remarque</h1>
       <p>These are my remarques</p>
