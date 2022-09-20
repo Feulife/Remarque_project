@@ -45,8 +45,12 @@ const SingUp = props => {
     document.title = 'Sing Up - Remarque';
   });
 
+  const client = useApolloClient()
   const [singUp, { loading, error }] = useMutation(SINGUP_USER, {
     onCompleted: data => {
+      localStorage.setItem('token', data.singUp);
+      client.writeData({ data: { isLoggedIn: true }})
+      props.history.push('/');
       console.log(data.singUp);
     }
   })

@@ -1,6 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 import logo from '../img/logo.svg';
+import { useQuery, gql } from "@apollo/client";
+import { Link } from 'react-router-dom';
 
 const HeaderBar = styled.header`
   width: 100%;
@@ -19,11 +21,32 @@ margin: 0;
 padding: 0;
 display: inline;
 `
-const Header = () => {
+const IS_LOGGED_IN = gql`
+  {
+    isLoggedIn @client
+  }
+`;
+
+const UserState = styled.div`
+  margin-left: auto;
+`
+const Header = props => {
+
+  const { data } = useQuery(IS_LOGGED_IN);
   return (
     <HeaderBar>
       <img src={logo} alt="Remarque Logo" height="40"/>
       <LogoText>Remarque</LogoText>
+      <UserState>
+        {data.isLoggedIn ? (
+          <p>Log Out</p>
+        ) : (
+          <p>
+            <Link to={'/signin'}>Sign In</Link>
+            <Link to={'/singup'}>Sign Up</Link>
+          </p>
+        )}
+      </UserState>
     </HeaderBar>
   )
 }
