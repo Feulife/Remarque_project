@@ -3,8 +3,8 @@ import styled from 'styled-components';
 import Button from '../components/Button';
 import { useMutation, useApolloClient, gql } from '@apollo/client';
 
-const SINGUP_USER = gql`
-  mutation singUp(
+const SIGNUP_USER = gql`
+  mutation signUp(
     $email: String!,
     $username: String!,
     $password: String!,
@@ -33,7 +33,7 @@ const Form = styled.form`
   }
 `;
 
-const SingUp = props => {
+const SignUp = props => {
   const [values, setValues] = useState();
   const onChange = event => {
     setValues({
@@ -42,16 +42,16 @@ const SingUp = props => {
     });
   };
   useEffect(() => {
-    document.title = 'Sing Up - Remarque';
+    document.title = 'Sign Up - Remarque';
   });
 
   const client = useApolloClient()
-  const [singUp, { loading, error }] = useMutation(SINGUP_USER, {
+  const [signUp, { loading, error }] = useMutation(SIGNUP_USER, {
     onCompleted: data => {
-      localStorage.setItem('token', data.singUp);
+      localStorage.setItem('token', data.signUp);
       client.writeData({ data: { isLoggedIn: true }})
       props.history.push('/');
-      console.log(data.singUp);
+      console.log(data.signUp);
     }
   })
 
@@ -61,7 +61,7 @@ const SingUp = props => {
       <Form
         onSubmint={event => {
           event.preventDefualt();
-          singUp({
+          signUp({
             variables: {
               ...values
             }
@@ -100,4 +100,4 @@ const SingUp = props => {
   );
 };
 
-export default SingUp;
+export default SignUp;

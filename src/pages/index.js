@@ -6,7 +6,8 @@ import MyRemarques from './myremarq';
 import Favorites from './favorites';
 import Layout from '../components/Layout';
 import NotePage from './notes';
-import SingUp  from "./singup";
+import SignUp  from "./signup";
+import SignIn from './signin';
 
 const Pages = () => {
   return (
@@ -16,7 +17,8 @@ const Pages = () => {
         <Route path="/myremarq" component={MyRemarques} />
         <Route path="/favorites" component={Favorites} />
         <Route path="/note/:id" component={NotePage} />
-        <Route path="/singup" component={SingUp} />
+        <Route path="/signup" component={SignUp} />
+        <Route path="/signin" component={SignIn} />
       </Layout>
     </Router>
   );

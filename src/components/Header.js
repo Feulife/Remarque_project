@@ -2,7 +2,8 @@ import React from "react";
 import styled from "styled-components";
 import logo from '../img/logo.svg';
 import { useQuery, gql } from "@apollo/client";
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
+import ButtonAsLink from "./ButtonAsLink";
 
 const HeaderBar = styled.header`
   width: 100%;
@@ -39,10 +40,17 @@ const Header = props => {
       <LogoText>Remarque</LogoText>
       <UserState>
         {data.isLoggedIn ? (
-          <p>Log Out</p>
+          <ButtonAsLink
+            onClick={() => {
+              localStorage.removeItem('token');
+              client.resetStore();
+              client.writeData({ data: { isLoggedIn: false } });
+              props.history.push('/');
+            }}
+          >Log Out</ButtonAsLink>
         ) : (
           <p>
-            <Link to={'/signin'}>Sign In</Link>
+            <Link to={'/signin'}>Sign In</Link> or {' '}
             <Link to={'/singup'}>Sign Up</Link>
           </p>
         )}
@@ -51,4 +59,4 @@ const Header = props => {
   )
 }
 
-export default Header;
+export default withRouter(Header);
