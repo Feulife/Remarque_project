@@ -15,21 +15,6 @@ const IS_LOGGED_IN = gql`
  }
 `;
 
-const Pages = () => {
-  return (
-    <Router>
-      <Layout>
-        <Route exact path="/" component={Home} />
-        <Route path="/myremarq" component={MyRemarques} />
-        <Route path="/favorites" component={Favorites} />
-        <Route path="/note/:id" component={NotePage} />
-        <Route path="/signup" component={SignUp} />
-        <Route path="/signin" component={SignIn} />
-      </Layout>
-    </Router>
-  );
-};
-
 const PrivateRoute = ({ component: Component, ...rest}) => {
   const { loading, error, data } = useQuery(IS_LOGGED_IN);
   if (loading) return <p>Loading...</p>
@@ -51,5 +36,21 @@ const PrivateRoute = ({ component: Component, ...rest}) => {
     />
   )
 };
+
+const Pages = () => {
+  return (
+    <Router>
+      <Layout>
+        <Route exact path="/" component={Home} />
+        <PrivateRoute path="/myremarq" component={MyRemarques} />
+        <PrivateRoute path="/favorites" component={Favorites} />
+        <Route path="/note/:id" component={NotePage} />
+        <Route path="/signup" component={SignUp} />
+        <Route path="/signin" component={SignIn} />
+      </Layout>
+    </Router>
+  );
+};
+
 
 export default Pages;
