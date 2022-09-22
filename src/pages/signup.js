@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
-import Button from '../components/Button';
+import React, { useEffect } from 'react';
 import { useMutation, useApolloClient, gql } from '@apollo/client';
+import UserForm from '../components/UseForm';
 
 const SIGNUP_USER = gql`
   mutation signUp(
@@ -34,14 +33,7 @@ const Form = styled.form`
 `;
 
 const SignUp = props => {
-  const [values, setValues] = useState();
-  const onChange = event => {
-    setValues({
-      ...values,
-      [event.target.name]: event.target.value
-    });
-  };
-  useEffect(() => {
+   useEffect(() => {
     document.title = 'Sign Up - Remarque';
   });
 
@@ -56,47 +48,11 @@ const SignUp = props => {
   })
 
   retrun(
-    <Wrapper>
-      <h2>Sign Up</h2>
-      <Form
-        onSubmint={event => {
-          event.preventDefualt();
-          signUp({
-            variables: {
-              ...values
-            }
-          });
-        }}>
-        <label htmlFor="username">Username:</label>
-        <input
-          required
-          type="text"
-          id="username"
-          name="username"
-          placeholder="username"
-          onChange={onChange}
-        />
-        <label htmlFor="email">Email:</label>
-        <input
-          required
-          type="email"
-          id="email"
-          name="email"
-          placeholder="Email"
-          onChange={onChange}
-        />
-        <label htmlFor="password">Password:</label>
-        <input
-          required
-          type="password"
-          id="password"
-          name="password"
-          placeholder="Password"
-          onChange={onChange}
-        />
-        <Button type="submit">Submit</Button>
-      </Form>
-    </Wrapper>
+    <React.Fragment>
+      <UserForm action={signUp} formType="signup" />
+      {loading && <p>Loading...</p>}
+      {error && <p>Error creating an account!</p>}
+    </React.Fragment>
   );
 };
 
