@@ -1,33 +1,23 @@
 import React, { useEffect } from 'react';
-import { useMutation, useApolloClient, gql } from '@apollo/client';
-import UserForm from '../components/UseForm';
-
-const SIGNUP_USER = gql`
-  mutation signUp(
-    $email: String!,
-    $username: String!,
-    $password: String!,
-  ) {
-    singUp(email: $email, username: $username, password: $password)
-  }
-`;
+import { useMutation, useApolloClient } from '@apollo/client';
+import UserForm from '../components/UserForm';
+import { SIGNUP_USER } from '../gql/mutation';
 
 const SignUp = props => {
-   useEffect(() => {
-    document.title = 'Sign Up - Remarque';
+  useEffect(() => {
+    document.title = 'Sign Up — Remarque';
   });
 
-  const client = useApolloClient()
+  const client = useApolloClient();
   const [signUp, { loading, error }] = useMutation(SIGNUP_USER, {
     onCompleted: data => {
       localStorage.setItem('token', data.signUp);
-      client.writeData({ data: { isLoggedIn: true }})
+      client.writeData({ data: { isLoggedIn: true } });
       props.history.push('/');
-      console.log(data.signUp);
     }
-  })
+  });
 
-  retrun(
+  return (
     <React.Fragment>
       <UserForm action={signUp} formType="signup" />
       {loading && <p>Loading...</p>}

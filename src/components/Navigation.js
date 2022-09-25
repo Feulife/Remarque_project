@@ -53,10 +53,10 @@ const Novigation = () => {
         </li>
         <li>
           <Link to="/favorites">Favorites</Link>
+        </li>        
+        <li>
+          <Link to="/new">New</Link>
         </li>
-        {/* <li>
-          <Link to="/singup">Sing Up</Link>
-        </li> */}
       </NavList>
     </Nav>
   );

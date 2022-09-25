@@ -1,12 +1,7 @@
-import React, { useEffect } from "react";
-import { useMutation, useApolloClient, gql } from "@apollo/client";
-import UserForm from "../components/UseForm";
-
-const SIGNIN_USER = gql`
-  mutation signIn($email: String, $password: String!) {
-    signIn(email: $email, password: $password)
-  }
-`;
+import React, { useEffect } from 'react';
+import { useMutation, useApolloClient } from '@apollo/client';
+import UserForm from '../components/UserForm';
+import { SIGNIN_USER } from '../gql/mutation';
 
 const SignIn = props => {
   useEffect(() => {
@@ -17,7 +12,7 @@ const SignIn = props => {
   const [signIn, { loading, error }] = useMutation(SIGNIN_USER, {
     onCompleted: data => {
       localStorage.setItem('token', data.signIn);
-      client.writeData({ data: { isLoggedIn: true }});
+      client.writeData({ data: { isLoggedIn: true } });
       props.history.push('/');
     }
   });
@@ -28,7 +23,7 @@ const SignIn = props => {
       {loading && <p>Loading...</p>}
       {error && <p>Error signing in!</p>}
     </React.Fragment>
-  )
+  );
 };
 
 export default SignIn;
