@@ -1,56 +1,37 @@
 import React from 'react';
-import { useQuery, gql } from '@apollo/client';
-import Button from '../components/Button';
-import NoteFeed from '../components/NoteFeed';
-import ReactMarkdown from 'react-markdown';
+import { useQuery } from '@apollo/client';
 
-const GET_NOTES = gql`
-  query NoteFeed($cursor: String) {
-    noteFeed(cursor: $cursor) {
-      cursor
-      hasNextPage
-      notes {
-        id
-        createdAt
-        content
-        favoriteCount
-        author {
-          username
-          id
-          avatar
-        }
-      }
-    }
-  }
-`;
+import RemarqueFeed from '../components/RemarqueFeed';
+import Button from '../components/Button';
+import { GET_REMARQUES } from '../gql/query';
 
 const Home = () => {
-
-  const { data, loading, error, fetchMore } = useQuery(GET_NOTES);
+  const { data, loading, error, fetchMore } = useQuery(GET_REMARQUES);
   if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error!</p>
+  if (error) return <p>Error!</p>;
+
   return (
     <React.Fragment>
-      <NoteFeed notes={data.noteFeed.notes} />
-      {data.noteFeed.hasNextPage && (
+      <NoteFeed notes={data.remarqueFeed.remarques} />
+      {data.remarqueeFeed.hasNextPage && (
         <Button
           onClick={() =>
             fetchMore({
               variables: {
-                cursor: data.noteFeed.cursor
+                cursor: data.remarqueFeed.cursor
               },
-              updateQuery: (previousResalt, { fetchMoreResult }) => {
+              updateQuery: (previousResult, { fetchMoreResult }) => {
                 return {
                   noteFeed: {
-                    cursor: fetchMoreResult.noteFeed.cursor,
-                    hasNextPage: fetchMoreResult.noteFeed.hasNextPage,
+                    cursor: fetchMoreResult.remarqueFeed.cursor,
+                    hasNextPage: fetchMoreResult.remarqueFeed.hasNextPage,
                     notes: [
-                      ...previousResalt.noteFeed.notes,
-                      ...fetchMoreResult.noteFeed.notes
+                      ...previousResult.remarqueFeed.remarques,
+                      ...fetchMoreResult.remarqueFeed.remarques
                     ],
-                    __typename: 'noteFeed'
+                    __typename: 'remarqueFeed'
                   }
-                }
+                };
               }
             })
           }
@@ -59,7 +40,7 @@ const Home = () => {
         </Button>
       )}
     </React.Fragment>
-    );
+  );
 };
 
 export default Home;

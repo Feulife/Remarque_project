@@ -1,9 +1,11 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
 import logo from '../img/logo.svg';
-import { useQuery, gql } from "@apollo/client";
+import { useQuery } from '@apollo/client';
 import { Link, withRouter } from 'react-router-dom';
-import ButtonAsLink from "./ButtonAsLink";
+
+import ButtonAsLink from './ButtonAsLink';
+import { IS_LOGGED_IN } from '../gql/query';
 
 const HeaderBar = styled.header`
   width: 100%;
@@ -15,28 +17,24 @@ const HeaderBar = styled.header`
   background-color: #fff;
   box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.25);
   z-index: 1;
-`
+`;
 
 const LogoText = styled.h1`
-margin: 0;
-padding: 0;
-display: inline;
-`
-const IS_LOGGED_IN = gql`
-  {
-    isLoggedIn @client
-  }
+  margin: 0;
+  padding: 0;
+  display: inline;
 `;
 
 const UserState = styled.div`
   margin-left: auto;
-`
-const Header = props => {
+`;
 
-  const { data } = useQuery(IS_LOGGED_IN);
+const Header = props => {
+  const { data, client } = useQuery(IS_LOGGED_IN);
+
   return (
     <HeaderBar>
-      <img src={logo} alt="Remarque Logo" height="40"/>
+      <img src={logo} alt="Remarque Logo" height="40" />
       <LogoText>Remarque</LogoText>
       <UserState>
         {data.isLoggedIn ? (
@@ -47,16 +45,18 @@ const Header = props => {
               client.writeData({ data: { isLoggedIn: false } });
               props.history.push('/');
             }}
-          >Log Out</ButtonAsLink>
+          >
+            Logout
+          </ButtonAsLink>
         ) : (
           <p>
-            <Link to={'/signin'}>Sign In</Link> or {' '}
-            <Link to={'/singup'}>Sign Up</Link>
+            <Link to={'/signin'}>Sign In</Link> or{' '}
+            <Link to={'/signup'}>Sign Up</Link>
           </p>
         )}
       </UserState>
     </HeaderBar>
-  )
-}
+  );
+};
 
 export default withRouter(Header);

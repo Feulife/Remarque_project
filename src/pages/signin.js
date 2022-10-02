@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react';
 import { useMutation, useApolloClient } from '@apollo/client';
+
 import UserForm from '../components/UserForm';
 import { SIGNIN_USER } from '../gql/mutation';
 
 const SignIn = props => {
   useEffect(() => {
-    document.title = 'Sign In - Remarque';
+    document.title = 'Sign In — Remarque';
   });
 
   const client = useApolloClient();

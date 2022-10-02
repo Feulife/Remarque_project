@@ -1,29 +1,30 @@
 import React from 'react';
 import { useMutation, useQuery } from '@apollo/client';
-import NoteForm from '../components/NoteForm';
-import { GET_NOTE, GET_ME } from '../gql/query';
-import { EDIT_NOTE } from '../gql/mutation';
 
-const EditNote = props => {
+import RemarqueForm from '../components/RemarqueForm';
+import { GET_REMARQUE, GET_ME } from '../gql/query';
+import { EDIT_REMARQUE } from '../gql/mutation';
+
+const EditRemarque = props => {
   const id = props.match.params.id;
-  const { loading, error, data } = useQuery(GET_NOTE, { variables: { id } });
+  const { loading, error, data } = useQuery(GET_REMARQUE, { variables: { id } });
   const { data: userdata } = useQuery(GET_ME);
-  const [editNote] = useMutation(EDIT_NOTE, {
+  const [editRemarque] = useMutation(EDIT_REMARQUE, {
     variables: {
       id
     },
     onCompleted: () => {
-      props.history.push(`/note/${id}`);
+      props.history.push(`/remarque/${id}`);
     }
   });
 
   if (loading) return 'Loading...';
   if (error) return <p>Error!</p>;
-  if (userdata.me.id !== data.note.author.id) {
+  if (userdata.me.id !== data.remarque.author.id) {
     return <p>You do not have access to edit this note</p>;
   }
 
-  return <NoteForm content={data.note.content} action={editNote} />;
+  return <RemarqueForm content={data.remarque.content} action={editRemarque} />;
 };
 
-export default EditNote;
+export default EditRemarque;

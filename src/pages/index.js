@@ -1,15 +1,17 @@
 import React from 'react';
 import { useQuery, gql } from '@apollo/client';
 import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
+
 import Layout from '../components/Layout';
+
 import Home from './home';
-import MyRemarques from './myremarq';
+import MyRemarques from './myremarques';
 import Favorites from './favorites';
-import Note from './note';
+import Remarque from './remarque';
 import SignUp from './signup';
 import SignIn from './signin';
-import NewNote from './new';
-import EditNote from './edit';
+import NewRemarque from './new';
+import EditRemarque from './edit';
 
 const IS_LOGGED_IN = gql`
   {
@@ -22,13 +24,13 @@ const Pages = () => {
     <Router>
       <Layout>
         <Route exact path="/" component={Home} />
-        <PrivateRoute path="/myremarq" component={MyRemarques} />
+        <PrivateRoute path="/myremarques" component={MyRemarques} />
         <PrivateRoute path="/favorites" component={Favorites} />
-        <Route path="/note/:id" component={Note} />
+        <Route path="/remarque/:id" component={Remarque} />
         <Route path="/signup" component={SignUp} />
         <Route path="/signin" component={SignIn} />
-        <PrivateRoute path="/new" component={NewNote} />
-        <PrivateRoute path="/edit/:id" component={EditNote} />
+        <PrivateRoute path="/new" component={NewRemarque} />
+        <PrivateRoute path="/edit/:id" component={EditRemarque} />
       </Layout>
     </Router>
   );
@@ -57,4 +59,4 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
   );
 };
 
-export default Pages; 
+export default Pages;

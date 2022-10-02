@@ -1,7 +1,8 @@
-import React from "react";
+import React from 'react';
 import styled from 'styled-components';
-import Header from "./Header";
-import Navigation from "./Navigation";
+
+import Header from './Header';
+import Navigation from './Navigation';
 
 const Wrapper = styled.div`
   @media (min-width: 700px) {
@@ -13,11 +14,11 @@ const Wrapper = styled.div`
     flex: auto;
     flex-direction: column;
   }
-`
+`;
 
 const Main = styled.main`
   position: fixed;
-  height: calc(100% - 185%);
+  height: calc(100% - 185px);
   width: 100%;
   padding: 1em;
   overflow-y: scroll;
@@ -27,7 +28,7 @@ const Main = styled.main`
     height: calc(100% - 64px);
     width: calc(100% - 220px);
   }
-`
+`;
 
 const Layout = ({ children }) => {
   return (
@@ -38,7 +39,7 @@ const Layout = ({ children }) => {
         <Main>{children}</Main>
       </Wrapper>
     </React.Fragment>
-  )
-}
+  );
+};
 
-export default Layout
+export default Layout;

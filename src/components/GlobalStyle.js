@@ -4,7 +4,7 @@ import normalize from 'normalize.css';
 export default createGlobalStyle`
   ${normalize}
 
-  *, *:befor, *:after {
+  *, *:before, *:after {
     box-sizing: border-box;
   }
 
@@ -15,7 +15,8 @@ export default createGlobalStyle`
   }
 
   body {
-    font-family: apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+      Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
     background-color: #fff;
     line-height: 1.4;
   }
@@ -33,5 +34,7 @@ export default createGlobalStyle`
   code,
   pre {
     max-width: 100%;
+    overflow: auto;
+    margin: 0 auto;
   }
 `;

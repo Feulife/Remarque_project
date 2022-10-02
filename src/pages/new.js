@@ -1,34 +1,19 @@
 import React, { useEffect } from 'react';
-import { useMutation, gql } from '@apollo/client';
-import NoteForm from '../components/NoteForm';
-import { GET_MY_NOTES, GET_NOTES } from '../gql/query';
+import { useMutation } from '@apollo/client';
 
-const NEW_NOTE = gql`
-  mutation newNote($content: String!) {
-    newNote(content: $content) {
-      id
-      content
-      createdAt
-      favoritedBy {
-        id
-        username
-      }
-      author {
-        username
-        id
-      }
-    }
-  }
-`;
+import RemarqueForm from '../components/RemarqueForm';
+import { NEW_REMARQUE } from '../gql/mutation';
+import { GET_MY_REMARQUES, GET_REMARQUES } from '../gql/query';
 
-const NewNote = props => {
+const NewRemarque = props => {
   useEffect(() => {
-    document.title = 'New Note - Remarque';
+    document.title = 'New Remarque';
   });
-  const [data, { loading, error }] = useMutation(NEW_NOTE, {
-    refetchQueries: [{ query: GET_MY_NOTES }, { query: GET_NOTES }],
+
+  const [data, { loading, error }] = useMutation(NEW_REMARQUE, {
+    refetchQueries: [{ query: GET_MY_REMARQUES }, { query: GET_REMARQUES }],
     onCompleted: data => {
-      props.history.push(`note/${data.newNote.id}`);
+      props.history.push(`remarque/${data.newRemarque.id}`);
     }
   });
 
@@ -36,9 +21,9 @@ const NewNote = props => {
     <React.Fragment>
       {loading && <p>Loading...</p>}
       {error && <p>Error saving the note</p>}
-      <NoteForm action={data} />
+      <RemarqueForm action={data} />
     </React.Fragment>
   );
 };
 
-export default NewNote;
+export default NewRemarque;

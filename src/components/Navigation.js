@@ -6,14 +6,14 @@ const Nav = styled.nav`
   padding: 1em;
   background: #f5f4f0;
 
-  @media(max-width: 800px) {
-    padding-top: 50px;
+  @media (max-width: 700px) {
+    padding-top: 64px;
   }
 
-  @media (min-width: 800px) {
+  @media (min-width: 700px) {
     position: fixed;
-    width: 200px;
-    height: calc(100% - 50px);
+    width: 220px;
+    height: calc(100% - 64px);
     overflow-y: scroll;
   }
 `;
@@ -24,6 +24,8 @@ const NavList = styled.ul`
   list-style: none;
   line-height: 2;
 
+  /* We can nest styles in styled-components */
+  /* The following styles will apply to links within the NavList component */
   a {
     text-decoration: none;
     font-weight: bold;
@@ -41,25 +43,33 @@ const NavList = styled.ul`
   }
 `;
 
-const Novigation = () => {
+const Navigation = () => {
   return (
     <Nav>
       <NavList>
         <li>
-          <Link to="/">Home</Link>
+          <Link to="/">
+            Home
+          </Link>
         </li>
         <li>
-          <Link to="/myremarq">My Remarq</Link>
+          <Link to="/myremarques">
+            My Remarques
+          </Link>
         </li>
         <li>
-          <Link to="/favorites">Favorites</Link>
-        </li>        
+          <Link to="/favorites">
+            Favorites
+          </Link>
+        </li>
         <li>
-          <Link to="/new">New</Link>
+          <Link to="/new">
+            New
+          </Link>
         </li>
       </NavList>
     </Nav>
   );
 };
 
-export default Novigation;
+export default Navigation;

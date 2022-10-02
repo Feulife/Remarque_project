@@ -1,11 +1,11 @@
 import { gql } from '@apollo/client';
 
-const GET_NOTES = gql`
+const GET_REMARQUES = gql`
   query noteFeed($cursor: String) {
-    noteFeed(cursor: $cursor) {
+    remarqueFeed(cursor: $cursor) {
       cursor
       hasNextPage
-      notes {
+      remarques {
         id
         createdAt
         content
@@ -20,9 +20,9 @@ const GET_NOTES = gql`
   }
 `;
 
-const GET_NOTE = gql`
-  query note($id: ID!) {
-    note(id: $id) {
+const GET_REMARQUE = gql`
+  query remarque($id: ID!) {
+    remarque(id: $id) {
       id
       createdAt
       content
@@ -36,12 +36,12 @@ const GET_NOTE = gql`
   }
 `;
 
-const GET_MY_NOTES = gql`
+const GET_MY_REMARQUES = gql`
   query me {
     me {
       id
       username
-      notes {
+      remarques {
         id
         createdAt
         content
@@ -88,13 +88,15 @@ const GET_ME = gql`
 `;
 
 const IS_LOGGED_IN = gql`
-  { isLoggedIn @client }
+  {
+    isLoggedIn @client
+  }
 `;
 
 export {
-  GET_NOTES,
-  GET_NOTE,
-  GET_MY_NOTES,
+  GET_REMARQUES,
+  GET_REMARQUE,
+  GET_MY_REMARQUES,
   GET_MY_FAVORITES,
   GET_ME,
   IS_LOGGED_IN

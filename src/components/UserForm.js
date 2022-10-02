@@ -1,6 +1,7 @@
-import React, { useState } from "react";
-import styled from "styled-components";
-import Button from "./Button";
+import React, { useState } from 'react';
+import styled from 'styled-components';
+
+import Button from './Button';
 
 const Wrapper = styled.div`
   border: 1px solid #f5f4f0;
@@ -15,27 +16,29 @@ const Form = styled.form`
     display: block;
     line-height: 2em;
   }
+
   input {
     width: 100%;
-    margin-button: 1em;
+    margin-bottom: 1em;
   }
-`
+`;
 
 const UserForm = props => {
   const [values, setValues] = useState();
+
   const onChange = event => {
     setValues({
       ...values,
       [event.target.name]: event.target.value
     });
-  }
+  };
 
   return (
     <Wrapper>
       {props.formType === 'signup' ? <h2>Sign Up</h2> : <h2>Sign In</h2>}
       <Form
-        onSubmit={e => {
-          e.preventDefault();
+        onSubmit={event => {
+          event.preventDefault();
           props.action({
             variables: {
               ...values
@@ -44,10 +47,8 @@ const UserForm = props => {
         }}
       >
         {props.formType === 'signup' && (
-          <ReactFragment>
-            <label htmlFor="username">
-              Username:
-            </label>
+          <React.Fragment>
+            <label htmlFor="username">Username:</label>
             <input
               required
               type="text"
@@ -55,8 +56,8 @@ const UserForm = props => {
               name="username"
               placeholder="username"
               onChange={onChange}
-            />            
-          </ReactFragment>
+            />
+          </React.Fragment>
         )}
         <label htmlFor="email">Email:</label>
         <input
@@ -73,13 +74,13 @@ const UserForm = props => {
           type="password"
           id="password"
           name="password"
-          placeholder="password"
+          placeholder="Password"
           onChange={onChange}
         />
         <Button type="submit">Submit</Button>
       </Form>
     </Wrapper>
-  )
-}
+  );
+};
 
 export default UserForm;
