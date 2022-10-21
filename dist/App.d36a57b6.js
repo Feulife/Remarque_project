@@ -70991,7 +70991,225 @@ var PrivateRoute = function PrivateRoute(_ref) {
 
 var _default = Pages;
 exports.default = _default;
-},{"react":"../node_modules/react/index.js","@apollo/client":"../node_modules/@apollo/client/index.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","../components/Layout":"components/Layout.js","./home":"pages/home.js","./myremarques":"pages/myremarques.js","./favorites":"pages/favorites.js","./remarque":"pages/remarque.js","./signup":"pages/signup.js","./signin":"pages/signin.js","./new":"pages/new.js","./edit":"pages/edit.js"}],"App.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","@apollo/client":"../node_modules/@apollo/client/index.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","../components/Layout":"components/Layout.js","./home":"pages/home.js","./myremarques":"pages/myremarques.js","./favorites":"pages/favorites.js","./remarque":"pages/remarque.js","./signup":"pages/signup.js","./signin":"pages/signin.js","./new":"pages/new.js","./edit":"pages/edit.js"}],"../node_modules/parcel-bundler/src/builtins/_empty.js":[function(require,module,exports) {
+
+},{}],"../node_modules/os-browserify/browser.js":[function(require,module,exports) {
+exports.endianness = function () { return 'LE' };
+
+exports.hostname = function () {
+    if (typeof location !== 'undefined') {
+        return location.hostname
+    }
+    else return '';
+};
+
+exports.loadavg = function () { return [] };
+
+exports.uptime = function () { return 0 };
+
+exports.freemem = function () {
+    return Number.MAX_VALUE;
+};
+
+exports.totalmem = function () {
+    return Number.MAX_VALUE;
+};
+
+exports.cpus = function () { return [] };
+
+exports.type = function () { return 'Browser' };
+
+exports.release = function () {
+    if (typeof navigator !== 'undefined') {
+        return navigator.appVersion;
+    }
+    return '';
+};
+
+exports.networkInterfaces
+= exports.getNetworkInterfaces
+= function () { return {} };
+
+exports.arch = function () { return 'javascript' };
+
+exports.platform = function () { return 'browser' };
+
+exports.tmpdir = exports.tmpDir = function () {
+    return '/tmp';
+};
+
+exports.EOL = '\n';
+
+exports.homedir = function () {
+	return '/'
+};
+
+},{}],"../node_modules/dotenv/package.json":[function(require,module,exports) {
+module.exports = {
+  "name": "dotenv",
+  "version": "16.0.3",
+  "description": "Loads environment variables from .env file",
+  "main": "lib/main.js",
+  "types": "lib/main.d.ts",
+  "exports": {
+    ".": {
+      "require": "./lib/main.js",
+      "types": "./lib/main.d.ts",
+      "default": "./lib/main.js"
+    },
+    "./config": "./config.js",
+    "./config.js": "./config.js",
+    "./lib/env-options": "./lib/env-options.js",
+    "./lib/env-options.js": "./lib/env-options.js",
+    "./lib/cli-options": "./lib/cli-options.js",
+    "./lib/cli-options.js": "./lib/cli-options.js",
+    "./package.json": "./package.json"
+  },
+  "scripts": {
+    "dts-check": "tsc --project tests/types/tsconfig.json",
+    "lint": "standard",
+    "lint-readme": "standard-markdown",
+    "pretest": "npm run lint && npm run dts-check",
+    "test": "tap tests/*.js --100 -Rspec",
+    "prerelease": "npm test",
+    "release": "standard-version"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/motdotla/dotenv.git"
+  },
+  "keywords": ["dotenv", "env", ".env", "environment", "variables", "config", "settings"],
+  "readmeFilename": "README.md",
+  "license": "BSD-2-Clause",
+  "devDependencies": {
+    "@types/node": "^17.0.9",
+    "decache": "^4.6.1",
+    "dtslint": "^3.7.0",
+    "sinon": "^12.0.1",
+    "standard": "^16.0.4",
+    "standard-markdown": "^7.1.0",
+    "standard-version": "^9.3.2",
+    "tap": "^15.1.6",
+    "tar": "^6.1.11",
+    "typescript": "^4.5.4"
+  },
+  "engines": {
+    "node": ">=12"
+  }
+};
+},{}],"../node_modules/dotenv/lib/main.js":[function(require,module,exports) {
+var process = require("process");
+var fs = require('fs');
+
+var path = require('path');
+
+var os = require('os');
+
+var packageJson = require('../package.json');
+
+var version = packageJson.version;
+var LINE = /(?:^|^)\s*(?:export\s+)?([\w.-]+)(?:\s*=\s*?|:\s+?)(\s*'(?:\\'|[^'])*'|\s*"(?:\\"|[^"])*"|\s*`(?:\\`|[^`])*`|[^#\r\n]+)?\s*(?:#.*)?(?:$|$)/mg; // Parser src into an Object
+
+function parse(src) {
+  var obj = {}; // Convert buffer to string
+
+  var lines = src.toString(); // Convert line breaks to same format
+
+  lines = lines.replace(/\r\n?/mg, '\n');
+  var match;
+
+  while ((match = LINE.exec(lines)) != null) {
+    var key = match[1]; // Default undefined or null to empty string
+
+    var value = match[2] || ''; // Remove whitespace
+
+    value = value.trim(); // Check if double quoted
+
+    var maybeQuote = value[0]; // Remove surrounding quotes
+
+    value = value.replace(/^(['"`])([\s\S]*)\1$/mg, '$2'); // Expand newlines if double quoted
+
+    if (maybeQuote === '"') {
+      value = value.replace(/\\n/g, '\n');
+      value = value.replace(/\\r/g, '\r');
+    } // Add to object
+
+
+    obj[key] = value;
+  }
+
+  return obj;
+}
+
+function _log(message) {
+  console.log("[dotenv@".concat(version, "][DEBUG] ").concat(message));
+}
+
+function _resolveHome(envPath) {
+  return envPath[0] === '~' ? path.join(os.homedir(), envPath.slice(1)) : envPath;
+} // Populates process.env from .env file
+
+
+function config(options) {
+  var dotenvPath = path.resolve(process.cwd(), '.env');
+  var encoding = 'utf8';
+  var debug = Boolean(options && options.debug);
+  var override = Boolean(options && options.override);
+
+  if (options) {
+    if (options.path != null) {
+      dotenvPath = _resolveHome(options.path);
+    }
+
+    if (options.encoding != null) {
+      encoding = options.encoding;
+    }
+  }
+
+  try {
+    // Specifying an encoding returns a string instead of a buffer
+    var parsed = DotenvModule.parse(fs.readFileSync(dotenvPath, {
+      encoding: encoding
+    }));
+    Object.keys(parsed).forEach(function (key) {
+      if (!Object.prototype.hasOwnProperty.call(process.env, key)) {
+        process.env[key] = parsed[key];
+      } else {
+        if (override === true) {
+          process.env[key] = parsed[key];
+        }
+
+        if (debug) {
+          if (override === true) {
+            _log("\"".concat(key, "\" is already defined in `process.env` and WAS overwritten"));
+          } else {
+            _log("\"".concat(key, "\" is already defined in `process.env` and was NOT overwritten"));
+          }
+        }
+      }
+    });
+    return {
+      parsed: parsed
+    };
+  } catch (e) {
+    if (debug) {
+      _log("Failed to load ".concat(dotenvPath, " ").concat(e.message));
+    }
+
+    return {
+      error: e
+    };
+  }
+}
+
+var DotenvModule = {
+  config: config,
+  parse: parse
+};
+module.exports.config = DotenvModule.config;
+module.exports.parse = DotenvModule.parse;
+module.exports = DotenvModule;
+},{"fs":"../node_modules/parcel-bundler/src/builtins/_empty.js","path":"../node_modules/path-browserify/index.js","os":"../node_modules/os-browserify/browser.js","../package.json":"../node_modules/dotenv/package.json","process":"../node_modules/process/browser.js"}],"App.js":[function(require,module,exports) {
 "use strict";
 
 var _react = _interopRequireDefault(require("react"));
@@ -71010,7 +71228,9 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var uri = "http://localhost:4000/api";
+require('dotenv').config();
+
+var uri = "http://localhost:1234/api";
 var httpLink = (0, _client.createHttpLink)({
   uri: uri
 });
@@ -71048,7 +71268,7 @@ var App = function App() {
 };
 
 _reactDom.default.render(_react.default.createElement(App, null), document.getElementById('root'));
-},{"react":"../node_modules/react/index.js","react-dom":"../node_modules/react-dom/index.js","@apollo/client":"../node_modules/@apollo/client/index.js","apollo-link-context":"../node_modules/apollo-link-context/lib/bundle.esm.js","/components/GlobalStyle":"components/GlobalStyle.js","/pages":"pages/index.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","react-dom":"../node_modules/react-dom/index.js","@apollo/client":"../node_modules/@apollo/client/index.js","apollo-link-context":"../node_modules/apollo-link-context/lib/bundle.esm.js","/components/GlobalStyle":"components/GlobalStyle.js","/pages":"pages/index.js","dotenv":"../node_modules/dotenv/lib/main.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -71076,7 +71296,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53523" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51783" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

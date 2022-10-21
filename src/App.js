@@ -10,6 +10,7 @@ import { setContext } from 'apollo-link-context';
 
 import GlobalStyle from '/components/GlobalStyle';
 import Pages from '/pages';
+require('dotenv').config();
 
 const uri = process.env.API_URI;
 const httpLink = createHttpLink({ uri });
